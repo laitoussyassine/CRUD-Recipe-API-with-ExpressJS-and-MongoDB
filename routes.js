@@ -1,7 +1,7 @@
 const express = require("express");
 const Recipe = require('./models/recipe');
 const multer = require('multer');
-const path = require("path")
+const path = require("path");
 const fs = require('fs');
 
 const storage  = multer.diskStorage({
@@ -10,7 +10,6 @@ const storage  = multer.diskStorage({
         cb(null, file.fieldname + ' - ' + Date.now() + path.extname(file.originalname))
     }
 })
-
 
 const upload = multer({storage : storage}).single("image");
   
@@ -36,7 +35,7 @@ app.post('/add',  (req,res) => {
             }) .catch((error)=>{
                 res.status(500).json({error: 'Failed to create Recipe'})
                 console.log(error)
-               })
+            })
         }
     })
 });
@@ -51,23 +50,33 @@ app.get("/", (req, res) => {
 app.get('/:id',  (req, res) => {
     const {id} = req.params;
     Recipe.findById(id).then((recipe)  => {
-        return res.type(recipe.image.contentType).send(recipe)
+        return res.type(recipe.image.contentType).send(recipe.image.data)
     }).catch((err) => {
         console.log(err);
     })
   });
 
-  app.put('/update_recipe/:id', async(req, res) => {
+  app.patch('/update_recipe/:id', upload,async(req, res) => {
     try {
-        const {title, categorie, rate ,image, ingredients} = req.body;
         const {id} = req.params;
-        const recipe = await Recipe.findByIdAndUpdate(id, {title, categorie, rate, image, ingredients})
+        console.log("id",id);
+        console.log("body",req.body)
+        const recipe = await new Recipe.findByIdAndUpdate(id,{
+            title : req.body.title,
+            categorie : req.body.categorie,
+            rate : req.body.rate,
+            ingredients : req.body.ingredients,
+            image: {
+                data: fs.readFileSync(path.join(__dirname + '/uploads/recipe/' + req.file.filename)),
+                contentType: 'image/png'
+            }
+        });
+        console.log("recipe",recipe);
         if(!recipe) {
             return res.status(404).json({messgae: `cannot find any recipe with ID ${id}`})
         }
-        const updateRecipe = await Recipe.findById(id);
-        res.status(200).json(updateRecipe)
-    } catch {
+        res.status(200).json({recipe: recipe})
+    } catch (error) {
         res.status(500).json({message: error.message})
     }
 
@@ -86,6 +95,5 @@ app.get('/:id',  (req, res) => {
         res.status(500).json({message: error.message})
     }
   })
-
 
 module.exports = app;
