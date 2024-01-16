@@ -7,7 +7,7 @@ const recipeSchema = new mongoose.Schema({
         },
         categorie: {
             type: String,
-            required: true
+            required: false
         },
         rate: {
             type: Number,
@@ -15,8 +15,8 @@ const recipeSchema = new mongoose.Schema({
             max: 5
         },
         image: {
-                data: Buffer,
-                contentType: String
+            type: String, // Store the image path as a string
+            required: true,
         },
         ingredients: [{
             type: String,
