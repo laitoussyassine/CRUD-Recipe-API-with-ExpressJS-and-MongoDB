@@ -65,7 +65,7 @@ The API provides endpoints for CRUD operations on recipes. Image upload is suppo
 - `GET /recipes`: Get all recipes.
 - `GET /recipes/`:id: Get a specific recipe by ID.
 - `POST /recipes/add` Create a new recipe.
-- `PATCH /recipes/update_recipe/:id`: Update a recipe by ID.
+- `PATCH /recipes/update_recipe/`:id: Update a recipe by ID.
 - `DELETE /recipes/delete_recipe/`:id: Delete a recipe by ID.
 
 Detailed documentation for each endpoint can be found in the source code.
