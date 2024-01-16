@@ -50,7 +50,14 @@ Make sure you have the following installed:
     npm install
    ```
 
-4. Start the serve:
+4. Create a .env file in the root directory and configure the following:
+
+   ```bash
+      PORT=3000
+      MONGODB_URI=mongodb://localhost:27017
+   ```
+
+5. Start the serve:
 
    ```bash
     npm start
