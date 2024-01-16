@@ -22,7 +22,7 @@ This repository contains the source code for a CRUD (Create, Read, Update, Delet
 
 ## Getting Started
 
-## `Prerequisites`
+### Prerequisites
 
 Make sure you have the following installed:
 
@@ -30,7 +30,7 @@ Make sure you have the following installed:
 - npm (Node Package Manager)
 - MongoDB Compass
 
-## `Installation`
+### Installation
 
 1. Clone the repository:
 
@@ -56,11 +56,11 @@ Make sure you have the following installed:
     npm start
    ```
 
-## `Usage`
+### Usage
 
 The API provides endpoints for CRUD operations on recipes. Image upload is supported for recipe items.
 
-## `Endpoints`
+### Endpoints
 
 - `GET /recipes`: Get all recipes.
 - `GET /recipes/`:id: Get a specific recipe by ID.
@@ -70,10 +70,10 @@ The API provides endpoints for CRUD operations on recipes. Image upload is suppo
 
 Detailed documentation for each endpoint can be found in the source code.
 
-## `Contributing`
+### Contributing
 
 Feel free to contribute to this project by opening issues or pull requests. Your feedback and suggestions are welcome!
 
-## `License`
+### License
 
 This project is licensed under the `MIT License`.
