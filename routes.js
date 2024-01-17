@@ -16,8 +16,8 @@ const storage = multer.diskStorage({
     }
   });
   
-  const upload = multer({ storage: storage });
-  
+const upload = multer({ storage: storage });
+
 const app = express()
 
 // Express middleware for handling image uploads
@@ -45,12 +45,12 @@ app.post('/add', upload.single('image'), async (req, res) => {
 
 app.get("/", async (req, res) => {
     try {
-        const recipes = await Recipe.find().exec();
+        const recipes = await Recipe.find();
         res.send(recipes);
     } catch (error) {
         console.log(error)
     }
-})
+});
 app.get('/:id', async (req, res) => {
     try {
         const {id} = req.params;
@@ -72,8 +72,11 @@ app.get('/:id', async (req, res) => {
             categorie,
             rate,
             ingredients,
-            image: `./uploads/recipe/${req.file.originalname}`,
         }, {new: true}).exec();
+        // Check if a new image is provided
+        if (req.file) {
+          recipe.image = `./uploads/recipe/${req.file.originalname}`;
+        }
         console.log("recipe",recipe);
         if(!recipe) {
             return res.status(404).json({messgae: `cannot find any recipe with ID ${id}`})

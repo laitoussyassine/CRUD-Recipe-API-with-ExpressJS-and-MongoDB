@@ -15,7 +15,7 @@ const recipeSchema = new mongoose.Schema({
             max: 5
         },
         image: {
-            type: String, // Store the image path as a string
+            type: String,
             required: true,
         },
         ingredients: [{

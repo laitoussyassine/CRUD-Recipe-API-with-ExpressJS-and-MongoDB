@@ -3,9 +3,7 @@ const express = require("express");
 const Recipe = require('./models/recipe');
 const mongoose = require('mongoose');
 const app = express();
-const routes = require("./routes.js")
-
-
+const routes = require("./routes.js");
 
 
 mongoose.connect(process.env.CONNECTION_STRING).then(() => {
