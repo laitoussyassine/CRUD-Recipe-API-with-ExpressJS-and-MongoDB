@@ -1,34 +1,24 @@
 const jwt = require('jsonwebtoken');
 require('dotenv').config()
 
-const requireAuth = (req, res, next) => {
-
-    // const tokenn = req.header('authorization')
+const requireAuth = async(req, res, next) => {
     const token = req.cookies.jwt;
-    console.log(token);
 
-    // check json web token exists & verified
-    if (token) {
-        jwt.verify(token, process.env.secret_key, (error, decodeToken) => {
-            if (error) {
-                return res.status(400).json({
-                    success : false, 
-                    message: error
+    if(!token) {
+        return res.status(401).json({
+            success: false,
+            message: "unauthorazed"
+        })
+    } else {
+         await jwt.verify(token, process.env.secret_key,(err,decodedToken)=>{
+            if(err){
+                return res.status(401).send({
+                        message: "Invalid Token"
                 })
-            } else {
-                res.status(200).json({
-                    success : true, 
-                    message: decodeToken
-                })
-                return next();
+            }else{
+                next();
             }
         });
-
-    } else {
-        return res.status(400).json({
-            success : false, 
-            message: "user have no token secret"
-        })
     }
 }
 module.exports = requireAuth;

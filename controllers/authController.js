@@ -63,3 +63,18 @@ module.exports.login_post = async (req,res) => {
         })
     }
 }
+
+module.exports.logout_get = (req,res) => {
+    try {
+        res.clearCookie('jwt');
+        return res.status(200).json({
+            success : true, 
+            message: "logout seccess"
+        })
+    } catch (err) {
+        return res.status(500).json({
+            success : false, 
+            message : error
+        })
+    }
+}

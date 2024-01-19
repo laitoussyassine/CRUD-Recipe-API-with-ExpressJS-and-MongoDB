@@ -5,7 +5,7 @@ const upload = require('../malter/malter.js');
 const requireAuth = require("../midllewares/authMidlleware");
 
 // Express middleware for handling image uploads
-app.post('/add', upload.single('image'), async (req, res) => {
+app.post('/add', requireAuth,upload.single('image'), async (req, res) => {
   try {
     const { title, categorie, ingredients, rate } = req.body;
 
@@ -29,10 +29,11 @@ app.post('/add', upload.single('image'), async (req, res) => {
 
 app.get("/",requireAuth,  async (req, res) => {
   try {
-      const recipes = await Recipe.find();
-      res.send(recipes);
+      const recipes = await Recipe.find({});
+      console.log(recipes);
+       res.json(recipes);
   } catch (error) {
-      console.log(error)
+      console.log(error);
   }
 });
 app.get('/:id', async (req, res) => {
@@ -45,12 +46,12 @@ app.get('/:id', async (req, res) => {
   }
 });
 
-app.patch('/update_recipe/:id',upload.single('image') ,async(req, res) => {
+app.patch('/update_recipe/:id',requireAuth,upload.single('image') ,async(req, res) => {
     try {
         const { title, categorie, ingredients, rate } = req.body;
         const {id} = req.params;
-        console.log("id",id);
-        console.log("body",req.body)
+        // console.log("id",id);
+        // console.log("body",req.body)
         const recipe =  await Recipe.findByIdAndUpdate(id,{
             title,
             categorie,
@@ -61,7 +62,7 @@ app.patch('/update_recipe/:id',upload.single('image') ,async(req, res) => {
         if (req.file) {
           recipe.image = `./uploads/recipe/${req.file.originalname}`;
         }
-        console.log("recipe",recipe);
+        // console.log("recipe",recipe);
         if(!recipe) {
             return res.status(404).json({messgae: `cannot find any recipe with ID ${id}`})
         }
@@ -71,7 +72,7 @@ app.patch('/update_recipe/:id',upload.single('image') ,async(req, res) => {
     }
   })
 
-app.delete('/delete_recipe/:id', async(req, res) => {
+app.delete('/delete_recipe/:id', requireAuth,async(req, res) => {
   try {
       const {id} = req.params;
       const recipe = await Recipe.findByIdAndDelete(id);
