@@ -1,0 +1,138 @@
+swagger: "2.0"
+info:
+  title: Recipe API
+  version: "1.0"
+paths:
+  /add:
+    post:
+      summary: Add a new recipe
+      security:
+        - BearerAuth: []
+      consumes:
+        - multipart/form-data
+      parameters:
+        - name: image
+          in: formData
+          type: file
+        - name: title
+          in: formData
+          type: string
+        - name: categorie
+          in: formData
+          type: string
+        - name: ingredients
+          in: formData
+          type: string
+        - name: rate
+          in: formData
+          type: string
+      responses:
+        200:
+          description: Recipe added successfully
+        500:
+          description: Internal Server Error
+
+  /:
+    get:
+      summary: Get all recipes
+      security:
+        - BearerAuth: []
+      responses:
+        200:
+          description: List of recipes
+          schema:
+            type: array
+            items:
+              $ref: "#/definitions/Recipe"
+        500:
+          description: Internal Server Error
+
+  "/{id}":
+    get:
+      summary: Get a recipe by ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          type: string
+      responses:
+        200:
+          description: Recipe details
+          schema:
+            $ref: "#/definitions/Recipe"
+        500:
+          description: Internal Server Error
+
+  /update_recipe/{id}:
+    patch:
+      summary: Update a recipe by ID
+      security:
+        - BearerAuth: []
+      consumes:
+        - multipart/form-data
+      parameters:
+        - name: id
+          in: path
+          required: true
+          type: string
+        - name: image
+          in: formData
+          type: file
+        - name: title
+          in: formData
+          type: string
+        - name: categorie
+          in: formData
+          type: string
+        - name: ingredients
+          in: formData
+          type: string
+        - name: rate
+          in: formData
+          type: string
+      responses:
+        200:
+          description: Recipe updated successfully
+          schema:
+            $ref: "#/definitions/Recipe"
+        404:
+          description: Recipe not found
+        500:
+          description: Internal Server Error
+
+  /delete_recipe/{id}:
+    delete:
+      summary: Delete a recipe by ID
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          type: string
+      responses:
+        200:
+          description: Recipe deleted successfully
+          schema:
+            $ref: "#/definitions/Recipe[]"
+        404:
+          description: Recipe not found
+        500:
+          description: Internal Server Error
+
+definitions:
+  Recipe:
+    type: object
+    properties:
+      _id:
+        type: string
+      title:
+        type: string
+      categorie:
+        type: string
+      image:
+        type: string
+      ingredients:
+        type: string
+      rate:
+        type: string

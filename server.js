@@ -7,6 +7,10 @@ const userRoutes = require("./routes/recipeRoutes.js");
 const authRoutes = require("./routes/userRoute.js");
 const cookieParser = require('cookie-parser');
 const requireAuth = require('./controllers/authController.js')
+const yaml = require('yamljs');
+
+const swaggerUi = require('swagger-ui-express');
+const swaggerSpec = yaml.load('./swagger.yaml');
 
 
 mongoose.connect(process.env.CONNECTION_STRING).then(() => {
@@ -18,6 +22,7 @@ mongoose.connect(process.env.CONNECTION_STRING).then(() => {
 // middleware
 app.use(express.json());
 app.use(cookieParser());
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 // routes
 app.use('/recipes', userRoutes);
