@@ -1,10 +1,10 @@
 const User  = require("../models/userSchema");
 const jwt = require("jsonwebtoken");
-
+require('dotenv').config()
 
 maxAge = 3 * 24 * 60 * 60;
 const createToken = (id) => {
-    return jwt.sign({ id }, "net ninja secret", {
+    return jwt.sign({ id }, process.env.secret_key, {
         expiresIn: maxAge
     })
 }

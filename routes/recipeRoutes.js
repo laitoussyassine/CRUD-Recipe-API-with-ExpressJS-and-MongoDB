@@ -1,7 +1,8 @@
 const express = require("express");
 const Recipe = require('../models/recipe');
 const app = express();
-const upload = require('../malter/malter.js')
+const upload = require('../malter/malter.js');
+const requireAuth = require("../midllewares/authMidlleware");
 
 // Express middleware for handling image uploads
 app.post('/add', upload.single('image'), async (req, res) => {
@@ -26,7 +27,7 @@ app.post('/add', upload.single('image'), async (req, res) => {
   }
 });
 
-app.get("/", async (req, res) => {
+app.get("/",requireAuth,  async (req, res) => {
   try {
       const recipes = await Recipe.find();
       res.send(recipes);

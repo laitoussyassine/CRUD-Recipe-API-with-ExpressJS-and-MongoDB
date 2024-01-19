@@ -6,6 +6,7 @@ const app = express();
 const userRoutes = require("./routes/recipeRoutes.js");
 const authRoutes = require("./routes/userRoute.js");
 const cookieParser = require('cookie-parser');
+const requireAuth = require('./controllers/authController.js')
 
 
 mongoose.connect(process.env.CONNECTION_STRING).then(() => {
