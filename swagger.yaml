@@ -113,14 +113,129 @@ paths:
       responses:
         200:
           description: Recipe deleted successfully
-          schema:
-            $ref: "#/definitions/Recipe[]"
         404:
           description: Recipe not found
         500:
           description: Internal Server Error
 
+  /signup:
+    post:
+      summary: User signup
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: "#/definitions/UserSignup"
+      responses:
+        200:
+          description: User signed up successfully
+          schema:
+            $ref: "#/definitions/UserSignupResponse"
+        500:
+          description: Internal Server Error
+
+  /logout:
+    get:
+      summary: User logout
+      produces:
+        - application/json
+      responses:
+        200:
+          description: User logged out successfully
+          schema:
+            $ref: "#/definitions/SuccessResponse"
+        500:
+          description: Internal Server Error
+
+  /login:
+    post:
+      summary: User login
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: "#/definitions/UserLogin"
+      responses:
+        200:
+          description: User logged in successfully
+          schema:
+            $ref: "#/definitions/UserLoginResponse"
+        401:
+          description: Unauthorized
+        500:
+          description: Internal Server Error
+
 definitions:
+  UserSignup:
+    type: object
+    properties:
+      email:
+        type: string
+        example: john_doe@example.com
+      password:
+        type: string
+        example: password123
+
+  UserSignupResponse:
+    type: object
+    properties:
+      user:
+        type: string
+        description: User ID
+      message:
+        type: string
+        description: Success message
+
+  UserLogin:
+    type: object
+    properties:
+      email:
+        type: string
+        example: john_doe@example.com
+      password:
+        type: string
+        example: password123
+
+  UserLoginResponse:
+    type: object
+    properties:
+      user:
+        type: string
+        description: User ID
+      token:
+        type: string
+        description: JWT Token
+
+  SuccessResponse:
+    type: object
+    properties:
+      success:
+        type: boolean
+        description: Indicates if the request was successful
+      message:
+        type: string
+        description: Success message
+
+  Error:
+    type: object
+    properties:
+      success:
+        type: boolean
+        description: Indicates if the request was successful
+      message:
+        type: string
+        description: Error message
+
   Recipe:
     type: object
     properties:
