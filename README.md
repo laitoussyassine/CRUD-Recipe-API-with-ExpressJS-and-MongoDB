@@ -101,7 +101,7 @@ The project follows the MVC (Model-View-Controller) architecture for better orga
 - routes: Defines API routes and connects them to the corresponding controllers.
 - views: Not applicable for this project (commonly used for rendering views in web applications).
 
-### ``Contributing`
+### `Contributing`
 
 Feel free to contribute to this project by opening issues or pull requests. Your feedback and suggestions are welcome!
 
